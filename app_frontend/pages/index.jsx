@@ -3,14 +3,22 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import Header from "../components/Header";
 import { useStateContext } from "../context/StateContext";
+import { urlFor } from "../client";
 
 const Home = () => {
-  const {user} = useStateContext();
+  const {user, setUser} = useStateContext();
   const router = useRouter();
-
+  
   useEffect(() => {
-    if(!user) router.push('/login')
-  }, [router, user])
+    const saveUser = () =>{
+     const userDetails =  JSON.parse(localStorage.getItem('user'))
+     const photoURL = urlFor(JSON.parse(localStorage.getItem('user'))?.image)?.width(200)?.url()
+      setUser({...userDetails, photoURL});
+    }
+    localStorage.getItem('user') !== null ? saveUser() : router.push('/login')
+}, [router])
+
+
   return (
     <div>
       <Head>
@@ -19,6 +27,8 @@ const Home = () => {
       </Head>
       <div>
         <Header />
+        {user?.photoURL}
+        {user?.username}
       </div>
     </div>
   );
