@@ -1,15 +1,25 @@
-import { Menu, Transition } from '@headlessui/react'
-import { Fragment, useState } from 'react'
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
+import { Menu, Transition } from "@headlessui/react";
+import { Fragment, useState } from "react";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 
-export default function Example() {
-    const [clicked, setClicked] = useState(false);
+export default function Example({ icons }) {
+  const [clicked, setClicked] = useState(false);
   return (
     <div className="sticky r-0 ">
       <Menu as="div" className="relative inline-block text-left">
         <div>
           <Menu.Button className="inline-flex w-full justify-center rounded-md bg-gray-100 hover:bg-gray-200 cursor-pointer  px-3 py-1 font-medium">
-           {!clicked ? <Bars3Icon className='menu-icon' onClick={() => setClicked(true)} /> : <XMarkIcon className='menu-icon' onClick={() => setClicked(false)}/>}
+            {!clicked ? (
+              <Bars3Icon
+                className="menu-icon"
+                onClick={() => setClicked(true)}
+              />
+            ) : (
+              <XMarkIcon
+                className="menu-icon"
+                onClick={() => setClicked(false)}
+              />
+            )}
           </Menu.Button>
         </div>
         <Transition
@@ -22,21 +32,17 @@ export default function Example() {
           leaveTo="transform opacity-0 scale-95"
         >
           <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-          
+            {icons.map((icon) => (
+                
               <Menu.Item>
-                {({ active }) => (
-                  <button
-                    className={`${
-                      active ? 'bg-violet-500 text-white' : 'text-gray-900'
-                    } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                  >
-                    hi
-                    </button>
-                    )}
-              </Menu.Item>
+              {({ active }) => (
+                <span>{icon.name}</span>
+                  )}
+            </Menu.Item>
+            ))}
           </Menu.Items>
         </Transition>
       </Menu>
     </div>
-  )
+  );
 }

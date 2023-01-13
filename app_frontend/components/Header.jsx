@@ -20,24 +20,6 @@ import {
 import { useStateContext } from "../context/StateContext";
 import Sidebar from './Sidebar';
 
-const Header = () => {
-  const { isMobile } = useStateContext();
-
-  return (
-    <div className="px-2 flex items-center justify-between bg-white shadow h-[10vh]">
-      <LeftHeader />
-      {isMobile ? (
-        <Sidebar />
-      ) : (
-        <>
-          <CenterHeader />
-          <RightHeader />
-        </>
-      )}
-    </div>
-  );
-};
-
 // Left Header
 
 const LeftHeader = () => {
@@ -54,7 +36,7 @@ const LeftHeader = () => {
     }
   };
   return (
-    <div className={`flex items-center gap-2 ${isMobile ? 'w-4/12': 'w-10/12'} h-full`}>
+    <div className={`flex items-center gap-2 w-4/12 h-full`}>
       <img
         src="https://cdn-icons-png.flaticon.com/128/4494/4494464.png"
         className="w-10 h-10 rounded-full"
@@ -84,7 +66,7 @@ const LeftHeader = () => {
   );
 };
 
-const CentreIcons = [
+const CenterHeaderIcons = [
   {
     name: "Home",
     icon: <HomeIcon className="menu-icon text-blue-400 hover:bg-blue-50" />,
@@ -139,18 +121,22 @@ const RightHeaderIcons = [
       </div>
     ),
     onClick: () => {},
+    name: 'Profile',
   },
   {
     element: <ChatBubbleOvalLeftEllipsisIcon className="menu-icon" />,
     onClick: () => {},
+    name: 'Chats',
   },
   {
     element: <BellIcon className="menu-icon" />,
     onClick: () => {},
+    name: 'Notifications',
   },
   {
     element: <ArrowLeftOnRectangleIcon className="menu-icon" />,
     onClick: () => {},
+    name: 'More'
   },
 ];
 
@@ -158,7 +144,7 @@ const CenterHeader = () => {
   const { activeMenu, setActiveMenu } = useStateContext();
   return (
     <div className="flex items-center justify-between lg:w-4/12 h-full ">
-      {CentreIcons.map((icon) => (
+      {CenterHeaderIcons.map((icon) => (
         <span
           onClick={() => {
             icon.onClick();
@@ -183,6 +169,27 @@ const RightHeader = () => {
     </div>
   );
 };
+
+
+
+const Header = () => {
+  const { isMobile } = useStateContext();
+
+  return (
+    <div className="px-2 flex items-center justify-between bg-white shadow h-[10vh]">
+      <LeftHeader />
+      {isMobile ? (
+        <Sidebar icons={[...CenterHeaderIcons, ...RightHeaderIcons]}/>
+      ) : (
+        <>
+          <CenterHeader />
+          <RightHeader />
+        </>
+      )}
+    </div>
+  );
+};
+
 
 
 export default Header;
