@@ -10,4 +10,8 @@
     .input {
         @apply bg-gray-100 px-3 text-gray-600 py-2 rounded-full my-2 ring-1 ring-gray-300 transition  lg:w-6/12 md:w-8/12 sm:w-[90%] focus:ring-indigo-400 focus:outline-none;
     }
+
+    .menu-icon {
+        @apply w-8 h-8 rounded-full hover:scale-105 cursor-pointer p-1;
+    }
 }
