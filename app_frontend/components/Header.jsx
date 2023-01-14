@@ -19,6 +19,7 @@ import {
 } from "@heroicons/react/24/solid";
 import { useStateContext } from "../context/StateContext";
 import Sidebar from './Sidebar';
+import { useRouter } from "next/router";
 
 // Left Header
 
@@ -26,6 +27,7 @@ const LeftHeader = () => {
   const [hasFocus, setHasFocus] = useState(false);
   const [input, setInput] = useState("");
   const { isMobile } = useStateContext();
+  const router = useRouter();
 
   const handleSearch = (e) => {
     if (e && e.code === "Enter") {
@@ -39,7 +41,8 @@ const LeftHeader = () => {
     <div className={`flex items-center gap-2 w-4/12 h-full`}>
       <img
         src="https://cdn-icons-png.flaticon.com/128/4494/4494464.png"
-        className="w-10 h-10 rounded-full"
+        className="w-10 h-10 rounded-full cursor-pointer"
+        onClick={() => router.push('/')}
       />
       <div
         className={`flex bg-gray-100 rounded-full pl-2 transition ${
@@ -66,85 +69,12 @@ const LeftHeader = () => {
   );
 };
 
-const CenterHeaderIcons = [
-  {
-    name: "Home",
-    icon: <HomeIcon className="menu-icon text-blue-400 hover:bg-blue-50" />,
-    activeIcon: <ActiveHomeIcon className="menu-icon text-blue-400" />,
-    onClick: () => {},
-  },
-  {
-    name: "Videos",
-    icon: (
-      <VideoCameraIcon className="menu-icon text-violet-400 hover:bg-violet-50" />
-    ),
-    activeIcon: <ActiveVideoCameraIcon className="menu-icon text-violet-400" />,
-    onClick: () => {},
-  },
-  {
-    name: "Shops",
-    icon: (
-      <BuildingStorefrontIcon className="menu-icon text-green-400 hover:bg-green-50" />
-    ),
-    activeIcon: (
-      <ActiveBuildingStorefrontIcon className="menu-icon text-green-400" />
-    ),
-    onClick: () => {},
-  },
-  {
-    name: "Groups",
-    icon: <UserGroupIcon className="menu-icon text-red-400 hover:bg-red-50" />,
-    activeIcon: <ActiveUserGroupIcon className="menu-icon text-red-400" />,
-    onClick: () => {},
-  },
-  {
-    name: "News",
-    icon: (
-      <NewspaperIcon className="menu-icon  text-cyan-400 hover:bg-cyan-50" />
-    ),
-    activeIcon: <ActiveNewsPaperIcon className="menu-icon text-cyan-400" />,
-    onClick: () => {
-      console.log("News");
-    },
-  },
-];
-
-const RightHeaderIcons = [
-  {
-    element: (
-      <div className="flex justify-between gap-2 p-2 cursor-pointer">
-        <img
-          src="https://cdn-icons-png.flaticon.com/128/4494/4494464.png"
-          className="w-6 h- 6hover:scale-105"
-        />
-        <span className="font-bold">Gaurav</span>
-      </div>
-    ),
-    onClick: () => {},
-    name: 'Profile',
-  },
-  {
-    element: <ChatBubbleOvalLeftEllipsisIcon className="menu-icon" />,
-    onClick: () => {},
-    name: 'Chats',
-  },
-  {
-    element: <BellIcon className="menu-icon" />,
-    onClick: () => {},
-    name: 'Notifications',
-  },
-  {
-    element: <ArrowLeftOnRectangleIcon className="menu-icon" />,
-    onClick: () => {},
-    name: 'More'
-  },
-];
 
 const CenterHeader = () => {
-  const { activeMenu, setActiveMenu } = useStateContext();
+  const { activeMenu, setActiveMenu , CenterHeaderIcons} = useStateContext();
   return (
     <div className="flex items-center justify-between lg:w-4/12 h-full ">
-      {CenterHeaderIcons.map((icon) => (
+      {CenterHeaderIcons?.map((icon) => (
         <span
           onClick={() => {
             icon.onClick();
@@ -159,10 +89,11 @@ const CenterHeader = () => {
 };
 
 const RightHeader = () => {
+  const {RightHeaderIcons} = useStateContext();
   return (
     <div className="flex items-center justify-around ml-10 lg:w-3/12">
-      {RightHeaderIcons.map((element) => (
-        <span className="hover:bg-gray-100 rounded-full">
+      {RightHeaderIcons?.map((element) => (
+        <span onClick={element.onClick} className="hover:bg-gray-100 rounded-full">
           {element.element}
         </span>
       ))}
@@ -179,7 +110,7 @@ const Header = () => {
     <div className="px-2 flex items-center justify-between bg-white shadow h-[10vh]">
       <LeftHeader />
       {isMobile ? (
-        <Sidebar icons={[...CenterHeaderIcons, ...RightHeaderIcons]}/>
+        <Sidebar />
       ) : (
         <>
           <CenterHeader />
