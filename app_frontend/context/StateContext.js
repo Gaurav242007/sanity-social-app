@@ -46,7 +46,9 @@ export const StateProvider = ({ children }) => {
       name: "Home",
       icon: <HomeIcon className="menu-icon text-blue-400 hover:bg-blue-50" />,
       activeIcon: <ActiveHomeIcon className="menu-icon text-blue-400" />,
-      onClick: () => {},
+      onClick: () => {
+        router.push('/')
+      },
     },
     {
       name: "Videos",
@@ -56,17 +58,21 @@ export const StateProvider = ({ children }) => {
       activeIcon: (
         <ActiveVideoCameraIcon className="menu-icon text-violet-400" />
       ),
-      onClick: () => {},
+      onClick: () => {
+        router.push('/videos')
+      },
     },
     {
       name: "Shops",
       icon: (
-        <BuildingStorefrontIcon className="menu-icon text-green-400 hover:bg-green-50" />
+        <BuildingStorefrontIcon className="menu-icon w-8 h-8 text-green-400 hover:bg-green-50" />
       ),
       activeIcon: (
         <ActiveBuildingStorefrontIcon className="menu-icon text-green-400" />
       ),
-      onClick: () => {},
+      onClick: () => {
+        router.push('/shops')
+      },
     },
     {
       name: "Groups",
@@ -74,7 +80,9 @@ export const StateProvider = ({ children }) => {
         <UserGroupIcon className="menu-icon text-red-400 hover:bg-red-50" />
       ),
       activeIcon: <ActiveUserGroupIcon className="menu-icon text-red-400" />,
-      onClick: () => {},
+      onClick: () => {
+        router.push('/groups')
+      },
     },
     {
       name: "News",
@@ -118,8 +126,11 @@ export const StateProvider = ({ children }) => {
     },
     {
       element: <ArrowLeftOnRectangleIcon className="menu-icon" />,
-      onClick: () => {},
-      name: "More",
+      onClick: () => {
+        router.push('/login');
+        localStorage.clear();
+      },
+      name: "Signout",
     },
   ];
 
