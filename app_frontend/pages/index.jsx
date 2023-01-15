@@ -16,7 +16,10 @@ const Home = () => {
       const photoURL = urlFor(JSON.parse(localStorage.getItem("user"))?.image)
         ?.width(200)
         ?.url();
-      setUser({ ...userDetails, photoURL });
+        setUser({ ...userDetails, photoURL });
+        localStorage.setItem("user", JSON.stringify({
+          ...userDetails, photoURL
+        }));
     };
     localStorage.getItem("user") !== null ? saveUser() : router.push("/login");
   }, [router]);

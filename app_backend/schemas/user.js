@@ -14,6 +14,14 @@ export default {
             type: 'string'
         },
         {
+            name: "bannerImage",
+            title: 'BannerImage',
+            type: 'image', 
+            options: {
+                hotspot: true
+            }
+        },
+        {
             name: 'image',
             title: 'Image',
             type: 'image',

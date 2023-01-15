@@ -101,8 +101,8 @@ export const StateProvider = ({ children }) => {
       element: (
         <div className="flex justify-between gap-2 p-2 cursor-pointer">
           <img
-            src="https://cdn-icons-png.flaticon.com/128/4494/4494464.png"
-            className="w-6 h- 6hover:scale-105"
+            src={user?.photoURL || "https://cdn-icons-png.flaticon.com/128/4494/4494464.png"}
+            className="w-6 h- 6hover:scale-105 rounded-full"
           />
           <span className="font-bold text-sm">{user?.username}</span>
         </div>

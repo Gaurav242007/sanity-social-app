@@ -71,6 +71,7 @@ const LeftHeader = () => {
 
 const CenterHeader = () => {
   const { activeMenu, setActiveMenu } = useStateContext();
+  const router = useRouter();
 
   
   const CenterHeaderIcons = [
