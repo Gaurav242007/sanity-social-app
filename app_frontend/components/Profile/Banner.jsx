@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { CameraIcon } from "@heroicons/react/24/solid";
 import { useStateContext } from "../../context/StateContext";
 import { client } from "../../client";
 import { useRef } from "react";
+import { useRouter } from "next/router";
+import { urlFor } from "../../client";
 
-const Banner = ({ user }) => {
-  const { loading, setLoading, setUser } = useStateContext();
+const Banner = () => {
+  const { loading, setLoading, setUser, user } = useStateContext();
   const [hasHovered, setHasHovered] = useState(false);
   const [hasHoveredPhoto, setHasHoveredPhoto] = useState(false);
   const [wrongImageType, setWrongImageType] = useState(false);
@@ -17,7 +19,37 @@ const Banner = ({ user }) => {
       ? user.bannerImageURL
       : `https://source.unsplash.com/random/?nature`
   );
-  const [profileImage, setProfileImage] = useState(user?.photoURL);
+  
+  const [profileImage, setProfileImage] = useState(user?.photoURL || 
+    `https://source.unsplash.com/random/?human`
+    );
+
+  
+  const router = useRouter();
+
+  useEffect(() => {
+    const saveUser = () => {
+      const userDetails = JSON.parse(localStorage.getItem("user"));
+      const photoURL = urlFor(JSON.parse(localStorage.getItem("user"))?.image)
+        ?.width(200)
+        ?.url();
+      const bannerImageURL = urlFor(
+        JSON.parse(localStorage.getItem("user"))?.bannerImage
+      )
+        ?.width(200)
+        ?.url();
+
+      setUser({ ...userDetails, photoURL, bannerImageURL });
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          ...userDetails,
+          photoURL,
+        })
+      );
+    };
+    localStorage.getItem("user") !== null ? saveUser() : router.push("/login");
+  }, [router]);
 
   const saveProfileImage = (e) => {
     const selectedFile = e.target.files[0];
@@ -173,7 +205,7 @@ const Banner = ({ user }) => {
             />
             <CameraIcon
               className={`font-semibold  z-[10000] text-gray-600 absolute left-12 top-12 menu-icon hover:text-gray-600 ${
-                hasHoveredPhoto ? "block" : "hidden"
+                hasHoveredPhoto ? "bloack" : "hidden"
               }`}
             />
           </div>

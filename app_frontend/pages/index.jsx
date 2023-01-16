@@ -5,8 +5,9 @@ import Header from "../components/Header";
 import { useStateContext } from "../context/StateContext";
 import { urlFor } from "../client";
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
+import Home from '../components/Home';
 
-const Home = () => {
+const App = () => {
   const { user, setUser } = useStateContext();
   const router = useRouter();
 
@@ -35,8 +36,7 @@ const Home = () => {
       </Head>
       <div>
         <Header />
-        {user?.photoURL}
-        {user?.username}
+        <Home />
       </div>
 
       <PlusCircleIcon className="menu-icon w-12 h-12 bg-white fixed bottom-4 right-10" />
@@ -44,4 +44,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default App;
