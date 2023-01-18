@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { useStateContext } from "../context/StateContext";
 import Sidebar from "./Sidebar";
@@ -16,10 +16,10 @@ import {
   VideoCameraIcon as ActiveVideoCameraIcon,
   UserGroupIcon as ActiveUserGroupIcon,
   NewspaperIcon as ActiveNewsPaperIcon,
-  ChatBubbleOvalLeftEllipsisIcon,
-  BellIcon,
-  ArrowLeftOnRectangleIcon,
 } from "@heroicons/react/24/solid";
+import TimeAgo from "javascript-time-ago";
+import { client, urlFor } from "../client";
+import { fetchUsers } from "../utils/queries";
 
 // Left Header
 
@@ -56,7 +56,7 @@ const LeftHeader = () => {
           type="text"
           className="bg-gray-100 px-1 text-gray-600 py-2 rounded-full focus:outline-none text-sm w-full"
           placeholder="Search..."
-        onFocus={() => setHasFocus(true)}
+          onFocus={() => setHasFocus(true)}
           onBlur={() => {
             setHasFocus(false);
           }}
@@ -73,14 +73,13 @@ const CenterHeader = () => {
   const { activeMenu, setActiveMenu } = useStateContext();
   const router = useRouter();
 
-  
   const CenterHeaderIcons = [
     {
       name: "Home",
       icon: <HomeIcon className="menu-icon text-blue-400 hover:bg-blue-50" />,
       activeIcon: <ActiveHomeIcon className="menu-icon text-blue-400" />,
       onClick: () => {
-        router.push('/')
+        router.push("/");
       },
     },
     {
@@ -92,7 +91,7 @@ const CenterHeader = () => {
         <ActiveVideoCameraIcon className="menu-icon text-violet-400" />
       ),
       onClick: () => {
-        router.push('/videos')
+        router.push("/videos");
       },
     },
     {
@@ -104,7 +103,7 @@ const CenterHeader = () => {
         <ActiveBuildingStorefrontIcon className="menu-icon text-green-400" />
       ),
       onClick: () => {
-        router.push('/shops')
+        router.push("/shops");
       },
     },
     {
@@ -114,7 +113,7 @@ const CenterHeader = () => {
       ),
       activeIcon: <ActiveUserGroupIcon className="menu-icon text-red-400" />,
       onClick: () => {
-        router.push('/groups')
+        router.push("/groups");
       },
     },
     {
@@ -163,8 +162,36 @@ const RightHeader = () => {
   );
 };
 
+const Notifications = () => {
+  const [users, setUsers] = useState([]);
+  const timeAgo = new TimeAgo("en-US");
+
+  useEffect(() => {
+    client.fetch(fetchUsers).then((data) => setUsers(data));
+  }, []);
+  return (
+    <div className="flex flex-col justify-cener shadow-md bg-white rounded-xl p-2 absolute right-2 top-12">
+      {users?.map((user) => (
+        <div className="flex items-center my-2 w-96 bg-gray-100 p-2 rounded-xl justify-around">
+          <img
+            src={urlFor(user.image).width(200).url()}
+            className="menu-icon"
+          />
+          <p className="text-sm">
+            <span className="font-bold">{user.username}</span> has joined this
+            social platform 🥳
+          </p>
+          <span className="text-[10px] text-gray-300">
+            {timeAgo.format(new Date(user._createdAt))}
+          </span>
+        </div>
+      ))}
+    </div>
+  );
+};
+
 const Header = () => {
-  const { isMobile } = useStateContext();
+  const { isMobile, isNotificationBar } = useStateContext();
 
   return (
     <div className="px-2 flex items-center justify-between bg-white shadow h-[10vh]">
@@ -175,6 +202,7 @@ const Header = () => {
         <>
           <CenterHeader />
           <RightHeader />
+          {isNotificationBar && <Notifications />}
         </>
       )}
     </div>

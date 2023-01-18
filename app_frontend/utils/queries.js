@@ -3,7 +3,7 @@ export const userQuery = (userId) => {
     return query;
   };
 
-export const fetchUsers = `*[_type == "user"]`;
+export const fetchUsers = `*[_type == "user"] | order(_createdAt desc)`;
 
 export const fetchPosts = `*[_type == "post"] | order(_createdAt desc)`
 

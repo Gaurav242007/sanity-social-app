@@ -9,16 +9,6 @@ export default {
             type: 'string'
         },
         {
-            name: 'destination',
-            title: 'Destination', 
-            type: 'url'
-        },
-        {
-            name: 'category',
-            title: 'Category', 
-            type: 'string'
-        },
-        {
             name: 'image',
             title: 'Image', 
             type: 'image',
@@ -32,9 +22,14 @@ export default {
             type: 'string'
         },
         {
-            name: 'postedBy',
-            title: 'PostedBy', 
-            type: 'postedBy'
+            name: 'username',
+            title: 'UserName', 
+            type: 'string'
+        },
+        {
+            name: 'userImage',
+            title: 'UserImage',
+            type: 'string'
         },
         {
             name: 'comments',

@@ -4,6 +4,7 @@ import { useStateContext } from "../context/StateContext";
 import Spinner from "./Spinner";
 import { client } from "../client";
 import { PaperAirplaneIcon, TrashIcon } from "@heroicons/react/24/solid";
+import EmojiPicker from "emoji-picker-react";
 
 const CreatePost = () => {
   const { user, loading, setLoading } = useStateContext();
@@ -12,6 +13,7 @@ const CreatePost = () => {
   const [input, setInput] = useState("");
   const [imageAsset, setImageAsset] = useState();
   const [wrongImageType, setWrongImageType] = useState(false);
+  const [emojiPicker, setEmojiPicker] = useState(false);
 
   const uploadImage = () => {
     const selectedFile = imageRef.current?.files[0];
@@ -56,10 +58,8 @@ const CreatePost = () => {
         },
       },
       userId: user?._id,
-      postedBy: {
-        _type: "user",
-        _ref: user?._id,
-      },
+      username: user?.username,
+      userImage: user?.photoURL,
       comments: [],
       likes: [],
     };
@@ -72,7 +72,7 @@ const CreatePost = () => {
       .catch((e) => console.log(e));
   };
   return (
-    <div className="w-full flex flex-col justify-center shadow-sm my-2 bg-white p-2 rounded-xl">
+    <div className="w-full flex flex-col justify-center shadow-sm my-2 bg-white p-2 rounded-xl" onBlur={() => setEmojiPicker(false)}>
       <div className="flex items-center w-full">
         <img
           src={user?.photoURL || `https://source.unsplash.com/random/?human`}
@@ -83,6 +83,8 @@ const CreatePost = () => {
           onChange={(e) => setInput(e.target.value)}
           placeholder={`What's on your mind, ${user?.username}?`}
           ref={inputRef}
+          value={input}
+          onClick={() => setEmojiPicker(false)}
         />
       </div>
       {loading && (
@@ -90,6 +92,15 @@ const CreatePost = () => {
           {" "}
           <Spinner />
         </div>
+      )}
+      {emojiPicker && (
+        <EmojiPicker
+          className="mx-auto sticky top-0"
+          onEmojiClick={(e) => {
+            setInput(input.concat(e.emoji));
+            inputRef.current.focus();
+          }}
+        />
       )}
       {!imageAsset && (
         <div className="w-full px-4 flex items-center">
@@ -105,7 +116,10 @@ const CreatePost = () => {
               Image/Video
             </span>
           </span>
-          <span className="flex items-center gap-2 w-4/12 hover:bg-gray-100 transition cursor-pointer p-2 rounded-xl">
+          <span onClick={() => {
+            setInput(input.concat('@'));
+            inputRef.current.focus();
+          }} className="flex items-center gap-2 w-4/12 hover:bg-gray-100 transition cursor-pointer p-2 rounded-xl">
             <img
               src="https://cdn-icons-png.flaticon.com/128/747/747968.png"
               className="w-4 h-4"
@@ -114,7 +128,10 @@ const CreatePost = () => {
               Tag Friends
             </span>
           </span>
-          <span className="flex items-center gap-2 w-4/12 hover:bg-gray-100 transition cursor-pointer p-2 rounded-xl">
+          <span
+            onClick={() => setEmojiPicker(!emojiPicker)}
+            className="flex items-center gap-2 w-4/12 hover:bg-gray-100 transition cursor-pointer p-2 rounded-xl"
+          >
             <img
               src="https://cdn-icons-png.flaticon.com/128/2274/2274543.png"
               className="w-4 h-4"

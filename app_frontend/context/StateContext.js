@@ -27,6 +27,7 @@ export const StateProvider = ({ children }) => {
   const [activeSidebar, setActiveSidebar] = useState("Home");
   const [width, setWidth] = useState();
   const router = useRouter();
+  const [isNotificationBar, setIsNotificationBar] = useState(false);
 
   function handleWindowSizeChange() {
     setWidth(window.innerWidth);
@@ -121,7 +122,9 @@ export const StateProvider = ({ children }) => {
     },
     {
       element: <BellIcon className="menu-icon" />,
-      onClick: () => {},
+      onClick: () => {
+        setIsNotificationBar(!isNotificationBar)
+      },
       name: "Notifications",
     },
     {
@@ -148,6 +151,8 @@ export const StateProvider = ({ children }) => {
         setActiveSidebar,
         CenterHeaderIcons,
         RightHeaderIcons,
+        isNotificationBar, 
+        setIsNotificationBar
       }}
     >
       {children}

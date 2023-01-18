@@ -2,12 +2,11 @@ import React, { useEffect, useState } from "react";
 import Post from "./Post";
 import { client } from "../client";
 import { fetchPosts } from "../utils/queries";
-import { useStateContext } from "../context/StateContext";
 import Spinner from "./Spinner";
 
 const Posts = () => {
   const [posts, setPosts] = useState([]);
-  const { loading, setLoading } = useStateContext();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setLoading(true);
