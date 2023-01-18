@@ -5,11 +5,12 @@ import Header from "../components/Header";
 import { useStateContext } from "../context/StateContext";
 import { urlFor } from "../client";
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
-import Home from '../components/Home';
 import TimeAgo from 'javascript-time-ago'
 
 // English.
 import en from 'javascript-time-ago/locale/en'
+import Messages from "../components/Messages";
+import ChatInput from "../components/ChatInput";
 
 TimeAgo.addDefaultLocale(en)
 
@@ -43,7 +44,8 @@ const App = () => {
       </Head>
       <div>
         <Header />
-        <Home />
+        <Messages />
+        <ChatInput />
       </div>
     </div>
   );

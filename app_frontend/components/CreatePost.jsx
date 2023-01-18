@@ -1,9 +1,8 @@
-import { CloudArrowUpIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import { useStateContext } from "../context/StateContext";
 import Spinner from "./Spinner";
 import { client } from "../client";
-import { PaperAirplaneIcon, TrashIcon } from "@heroicons/react/24/solid";
+import { PaperAirplaneIcon, TrashIcon,PlusCircleIcon } from "@heroicons/react/24/solid";
 import EmojiPicker from "emoji-picker-react";
 
 const CreatePost = () => {
@@ -72,7 +71,7 @@ const CreatePost = () => {
       .catch((e) => console.log(e));
   };
   return (
-    <div className="w-full flex flex-col justify-center shadow-sm my-2 bg-white p-2 rounded-xl" onBlur={() => setEmojiPicker(false)}>
+    <div className="w-full flex flex-col justify-center shadow-sm my-2 bg-white p-2 rounded-xl">
       <div className="flex items-center w-full">
         <img
           src={user?.photoURL || `https://source.unsplash.com/random/?human`}

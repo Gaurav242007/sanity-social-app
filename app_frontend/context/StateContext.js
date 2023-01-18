@@ -152,7 +152,7 @@ export const StateProvider = ({ children }) => {
         CenterHeaderIcons,
         RightHeaderIcons,
         isNotificationBar, 
-        setIsNotificationBar
+        setIsNotificationBar,
       }}
     >
       {children}
