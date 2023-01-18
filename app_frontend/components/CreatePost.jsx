@@ -44,6 +44,7 @@ const CreatePost = () => {
   };
 
   const savePost = () => {
+    setLoading(true);
     const doc = {
       _type: "post",
       title: input,

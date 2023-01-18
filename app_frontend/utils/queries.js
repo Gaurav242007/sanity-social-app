@@ -5,7 +5,7 @@ export const userQuery = (userId) => {
 
 export const fetchUsers = `*[_type == "user"]`;
 
-export const fetchPosts = `*[_type == "posts"]`
+export const fetchPosts = `*[_type == "post"] | order(_createdAt desc)`
 
 
 export const fetchLoginUser = (username, email) => {
