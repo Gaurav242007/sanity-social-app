@@ -21,7 +21,7 @@ const ChatInput = () => {
   const imageRef = useRef();
 
   const handleSend = () => {
-    if (input) {
+    if (input || image || link) {
       setChatLoading(true);
       const textToSend = input;
       setInput("");
@@ -53,6 +53,8 @@ const ChatInput = () => {
         setMessages([...messages, data]);
         setChatLoading(false);
         setImage(null);
+        setLink('');
+        setIsLink(false)
       });
     }
   };
