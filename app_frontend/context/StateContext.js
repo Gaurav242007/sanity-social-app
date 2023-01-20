@@ -28,6 +28,7 @@ export const StateProvider = ({ children }) => {
   const [width, setWidth] = useState();
   const router = useRouter();
   const [isNotificationBar, setIsNotificationBar] = useState(false);
+  const [searchString, setSearchString] = useState('');
 
   // Chats
   const [messages, setMessages] = useState([]);
@@ -164,6 +165,8 @@ export const StateProvider = ({ children }) => {
         setMessages,
         chatLoading,
         setChatLoading,
+        searchString,
+        setSearchString
       }}
     >
       {children}

@@ -7,6 +7,11 @@ export const fetchUsers = `*[_type == "user"] | order(_createdAt desc)`;
 
 export const fetchPosts = `*[_type == "post"] | order(_createdAt desc)`;
 
+export const fetchSearchPosts = (searchTerm) => {
+   const query =  `*[_type == "post" && title match '${searchTerm}*' || username match '${searchTerm}*'] | order(_createdAt desc)`;
+   return query;
+}
+
 export const fetchChats = `*[_type == "chat"] | order(_createdAt asc)`;
 
 

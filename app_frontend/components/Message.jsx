@@ -2,6 +2,7 @@ import React from "react";
 import { useStateContext } from "../context/StateContext";
 import TimeAgo from "javascript-time-ago";
 import { urlFor } from "../client";
+import { useRouter } from "next/router";
 
 const Message = ({
   message,
@@ -14,6 +15,8 @@ const Message = ({
 }) => {
   const { user } = useStateContext();
   const timeAgo = new TimeAgo("en-US");
+  const router = useRouter();
+
   return user?._id === userId ? (
     <div className="flex items-center ml-auto mr-4 w-60 my-2">
       <div className="flex flex-col items-center w-full">
@@ -47,7 +50,7 @@ const Message = ({
         </div>
       </div>
 
-      <img src={userImage} className="menu-icon w-12 h-12 mt-8" />
+      <img src={userImage} className="menu-icon w-12 h-12 mt-8" onClick={() => router.push("/profile")} />
     </div>
   ) : (
     <div className="flex items-center mr-4 w-60 my-2">
@@ -58,7 +61,7 @@ const Message = ({
             {username}
           </span>
           <span className="text-[10px] text-gray-400 font-semibold">
-            {timeAgo.format(new Date(_createdAt))}
+            {timeAgo?.format(new Date(_createdAt) || new Date())}
           </span>
         </div>
         <div className="w-full bg-white/70 text-white p-2 pr-4 rounded-r-md m-2 rounded-t-md">
