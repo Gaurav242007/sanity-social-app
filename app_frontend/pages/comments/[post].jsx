@@ -1,10 +1,10 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import Header from '../../components/Header';
+import Header from "../../components/Header";
 import { useStateContext } from "../../context/StateContext";
 import { urlFor } from "../../client";
-import CommentInput from '../../components/CommentInput';
+import CommentInput from "../../components/CommentInput";
 
 // English.
 import Comments from "../../components/Comments";
@@ -20,10 +20,14 @@ const App = () => {
       const photoURL = urlFor(JSON.parse(localStorage.getItem("user"))?.image)
         ?.width(200)
         ?.url();
-        setUser({ ...userDetails, photoURL });
-        localStorage.setItem("user", JSON.stringify({
-          ...userDetails, photoURL
-        }));
+      setUser({ ...userDetails, photoURL });
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          ...userDetails,
+          photoURL,
+        })
+      );
     };
   }, [router]);
 
@@ -39,9 +43,7 @@ const App = () => {
       <div>
         <Header />
         <Comments />
-        {user && (
-          <CommentInput />
-        )}
+        <CommentInput />
       </div>
     </div>
   );

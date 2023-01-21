@@ -172,7 +172,7 @@ const Notifications = () => {
   return (
     <div className="flex flex-col justify-cener shadow-md bg-white rounded-xl p-2 absolute right-2 top-12">
       {users?.map((user) => (
-        <div className="flex items-center my-2 w-96 bg-gray-100 p-2 rounded-xl justify-around">
+        <div key={user?._id} className="flex items-center my-2 w-96 bg-gray-100 p-2 rounded-xl justify-around">
           <img
             src={urlFor(user.image).width(200).url()}
             className="menu-icon"
