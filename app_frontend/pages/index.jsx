@@ -20,7 +20,9 @@ const App = () => {
         localStorage.setItem("user", JSON.stringify({
           ...userDetails, photoURL
         }));
-    };
+        
+      };
+      localStorage.getItem("user") !== null ? saveUser() : router.push("/login");
   }, [router]);
 
   return (

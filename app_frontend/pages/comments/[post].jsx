@@ -43,7 +43,9 @@ const App = () => {
       <div>
         <Header />
         <Comments />
+        {user && 
         <CommentInput />
+        }
       </div>
     </div>
   );

@@ -101,6 +101,7 @@ const CreatePost = () => {
           }}
         />
       )}
+      {user &&
         <div className="w-full px-4 flex items-center">
           <span
             onClick={() => imageRef.current.click()}
@@ -139,6 +140,7 @@ const CreatePost = () => {
             </span>
           </span>
         </div>
+}
       <div className="flex items-center  relative justify-center w-full">
         <input
           type="file"
@@ -147,7 +149,7 @@ const CreatePost = () => {
           className="w-0 h-0"
           ref={imageRef}
         />
-        {imageAsset && input.trim().length >= 1 && (
+        {imageAsset && input.trim().length >= 1 && user && (
           <PaperAirplaneIcon
             onClick={savePost}
             className="menu-icon text-blue-400 absolute right-4 bottom-10 hover:bg-blue-50 w-10 h-10 p-2"

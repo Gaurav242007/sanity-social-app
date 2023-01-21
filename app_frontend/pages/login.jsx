@@ -93,6 +93,7 @@ const Login = () => {
             .createIfNotExists(doc)
             .then(() => {
               localStorage.setItem("user", JSON.stringify(doc));
+              router.push('/profile');
               window.location.reload();
             })
             .catch((e) => console.log(e));
@@ -124,6 +125,7 @@ const Login = () => {
               localStorage.setItem("user", JSON.stringify(data));
               console.log(data);
               console.log(query);
+              router.push('/profile');
               window.location.reload();
             });
           } else {
