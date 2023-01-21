@@ -26,15 +26,15 @@ import { fetchUsers } from "../utils/queries";
 const LeftHeader = () => {
   const [hasFocus, setHasFocus] = useState(false);
   const [input, setInput] = useState("");
-  const { isMobile, setSearchString, searchString } = useStateContext();
+  const { isMobile } = useStateContext();
   const router = useRouter();
 
   const handleSearch = (e) => {
     if (e && e.code === "Enter") {
-      setSearchString(input);
-      console.log(searchString);
+      const search = input;
       setHasFocus(false);
-      
+      setInput("");
+      console.log(search);
     }
   };
   return (

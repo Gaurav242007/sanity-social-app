@@ -124,7 +124,7 @@ const Post = ({
       </div>
       <span className="px-2 font-semibold">{title}</span>
       <img
-        src={urlFor(image)?.width(800)?.url()}
+        src={urlFor(image).width(800).url()}
         className="object-cover my-2 h-full w-full"
         onClick={() => setIsMenu(false)}
       />
