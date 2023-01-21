@@ -1,13 +1,17 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import Header from "../components/Header";
-import { useStateContext } from "../context/StateContext";
-import { urlFor } from "../client";
-import Home from '../components/Home';
+import Header from '../../components/Header';
+import { useStateContext } from "../../context/StateContext";
+import { urlFor } from "../../client";
+import CommentInput from '../../components/CommentInput';
+
+// English.
+import Comments from "../../components/Comments";
+import ChatInput from "../../components/ChatInput";
 
 const App = () => {
-  const { user, setUser } = useStateContext();
+  const { setUser, user } = useStateContext();
   const router = useRouter();
 
   useEffect(() => {
@@ -26,7 +30,7 @@ const App = () => {
   return (
     <div>
       <Head>
-        <title>Sanity Social App</title>
+        <title>Comments</title>
         <link
           rel="icon"
           href="https://cdn-icons-png.flaticon.com/128/4494/4494464.png"
@@ -34,7 +38,10 @@ const App = () => {
       </Head>
       <div>
         <Header />
-        <Home />
+        <Comments />
+        {user && (
+          <CommentInput />
+        )}
       </div>
     </div>
   );

@@ -12,6 +12,7 @@ const Message = ({
   userImage,
   link,
   image,
+  timestamp
 }) => {
   const { user } = useStateContext();
   const timeAgo = new TimeAgo("en-US");
@@ -25,7 +26,7 @@ const Message = ({
             {username}
           </span>
           <span className="text-[10px] text-gray-400 font-semibold">
-            {timeAgo.format(new Date(_createdAt))}
+            {timeAgo?.format(new Date(_createdAt || timestamp))}
           </span>
         </div>
         <div className="w-full bg-purple-600 text-white p-2 pr-4 rounded-l-md m-2 rounded-t-md">
@@ -61,10 +62,10 @@ const Message = ({
             {username}
           </span>
           <span className="text-[10px] text-gray-400 font-semibold">
-            {timeAgo?.format(new Date(_createdAt) || new Date())}
+            {timeAgo?.format(new Date(_createdAt || timestamp))}
           </span>
         </div>
-        <div className="w-full bg-white/70 text-white p-2 pr-4 rounded-r-md m-2 rounded-t-md">
+        <div className="w-full bg-white/70 text-gray-700 p-2 pr-4 rounded-r-md m-2 rounded-t-md">
           {message}
           {link && (
             <>

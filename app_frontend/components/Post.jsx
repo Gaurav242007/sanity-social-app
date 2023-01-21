@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ChatBubbleOvalLeftEllipsisIcon,
   HandThumbUpIcon,
@@ -8,12 +8,13 @@ import {
 } from "@heroicons/react/24/outline";
 import {
   HandThumbUpIcon as ActiveHandThumbUpIcon,
-  PencilIcon,
   PencilSquareIcon,
 } from "@heroicons/react/24/solid";
 import { client, urlFor } from "../client";
 import TimeAgo from "javascript-time-ago";
 import { useStateContext } from "../context/StateContext";
+import { useRouter } from "next/router";
+import {v4 as uuidv4} from 'uuid';
 
 const Post = ({
   _id,
@@ -25,10 +26,12 @@ const Post = ({
   comments,
   likes,
 }) => {
-  const {setLoading} = useStateContext();
-  const [hasLiked, setHasLiked] = useState(true);
+  const { setLoading, user } = useStateContext();
+  const [hasLiked, setHasLiked] = useState(false);
+  const [numLikes, setNumLikes] = useState(likes);
   const [isMenu, setIsMenu] = useState(false);
   const timeAgo = new TimeAgo("en-US");
+  const router = useRouter();
 
   const handleDelete = () => {
     client
@@ -39,6 +42,48 @@ const Post = ({
       })
       .catch((e) => console.log(e));
   };
+
+  const handleLike = () => {
+    setHasLiked(!hasLiked)
+    if(hasLiked){
+      // remove the like document 
+      client
+        .patch(_id)
+        .remove('after', 'likes[-1]', [{
+
+        }])
+        .commit()
+        .then((data) => {
+        });
+    }
+    else {
+      // add new like document conatining user id
+      
+      client
+        .patch(_id)
+        .setIfMissing({ likes: [] })
+        .insert('after', 'likes[-1]', [{
+          userId: user?._id,
+          _key: uuidv4()
+        }])
+        .commit()
+        .then((data) => {
+          
+        });
+    }
+  }
+
+  const handleHasLiked = () => {
+    const isLikedByUser = likes.filter(like => like.userId === user?._id);
+    setHasLiked(isLikedByUser.length > 0 ? true : false);
+  }
+
+  useEffect(() => {
+    console.log('likes', likes)
+    console.log('numLikes', numLikes)
+    handleHasLiked();
+  }, [numLikes])
+
   return (
     <div className="w-full bg-white rounded-md shadow-sm my-2">
       <div className="flex items-center p-2 pb-4">
@@ -57,7 +102,7 @@ const Post = ({
             className="hover:bg-gray-100 menu-icon text-gray-700"
             onClick={() => setIsMenu(!isMenu)}
           />
-          {isMenu && (
+          {user && isMenu && (
             <div className="relative right-16 opacity-90">
               <div className="flex top-2 sm:flex-col flex-row justify-center shadow-sm bg-gray-50 rounded-md p-2 py-2 absolute">
                 <div className="flex items-center justify-between p-2 px-2 transition my-1 hover:bg-gray-100 cursor-pointer rounded-xl">
@@ -86,16 +131,22 @@ const Post = ({
       <div className="my-2 p-2 flex items-center justify-around">
         <span className="flex items-center">
           {hasLiked ? (
-            <ActiveHandThumbUpIcon className="text-red-400 menu-icon hover:bg-red-100" />
+            <ActiveHandThumbUpIcon
+              onClick={() => handleLike()}
+              className="text-red-400 menu-icon hover:bg-red-100"
+            />
           ) : (
-            <HandThumbUpIcon className="menu-icon hover:bg-gray-100 text-gray-700" />
+            <HandThumbUpIcon
+              onClick={() => handleLike()}
+              className="menu-icon hover:bg-gray-100 text-gray-700"
+            />
           )}
           <span>
-            {likes?.length} {likes?.length <= 1 ? "Like" : "Likes"}
+            {numLikes?.length} {numLikes?.length <= 1 ? "Like" : "Likes"}
           </span>
         </span>
         <span className="flex items-center">
-          <ChatBubbleOvalLeftEllipsisIcon className="menu-icon hover:bg-blue-100 text-blue-400" />
+          <ChatBubbleOvalLeftEllipsisIcon onClick={() => router.push(`comments/${_id}`)} className="menu-icon hover:bg-blue-100 text-blue-400" />
           <span>
             {comments?.length} {comments?.length <= 1 ? "Comment" : "Comments"}
           </span>

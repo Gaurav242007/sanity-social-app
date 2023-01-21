@@ -33,6 +33,8 @@ export const StateProvider = ({ children }) => {
   // Chats
   const [messages, setMessages] = useState([]);
   const [chatLoading, setChatLoading] = useState(false);
+  const [CommentsLoading, setCommentsLoading] = useState(false);
+  const [comments, setComments] = useState([]);
 
   function handleWindowSizeChange() {
     setWidth(window.innerWidth);
@@ -166,7 +168,11 @@ export const StateProvider = ({ children }) => {
         chatLoading,
         setChatLoading,
         searchString,
-        setSearchString
+        setSearchString,
+        CommentsLoading,
+        setCommentsLoading,
+        comments,
+        setComments
       }}
     >
       {children}

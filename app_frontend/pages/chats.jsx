@@ -4,19 +4,12 @@ import { useEffect } from "react";
 import Header from "../components/Header";
 import { useStateContext } from "../context/StateContext";
 import { urlFor } from "../client";
-import { PlusCircleIcon } from "@heroicons/react/24/solid";
-import TimeAgo from 'javascript-time-ago'
-
-// English.
-import en from 'javascript-time-ago/locale/en'
 import Messages from "../components/Messages";
 import ChatInput from "../components/ChatInput";
 
-TimeAgo.addDefaultLocale(en)
-
 
 const App = () => {
-  const { user, setUser } = useStateContext();
+  const { setUser, user } = useStateContext();
   const router = useRouter();
 
   useEffect(() => {
@@ -30,7 +23,6 @@ const App = () => {
           ...userDetails, photoURL
         }));
     };
-    localStorage.getItem("user") !== null ? saveUser() : router.push("/login");
   }, [router]);
 
   return (
@@ -45,7 +37,9 @@ const App = () => {
       <div>
         <Header />
         <Messages />
-        <ChatInput />
+        {user && (
+          <ChatInput />
+        )}
       </div>
     </div>
   );

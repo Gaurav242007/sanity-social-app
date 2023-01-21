@@ -101,7 +101,6 @@ const CreatePost = () => {
           }}
         />
       )}
-      {!imageAsset && (
         <div className="w-full px-4 flex items-center">
           <span
             onClick={() => imageRef.current.click()}
@@ -140,7 +139,6 @@ const CreatePost = () => {
             </span>
           </span>
         </div>
-      )}
       <div className="flex items-center  relative justify-center w-full">
         <input
           type="file"
@@ -165,7 +163,10 @@ const CreatePost = () => {
             <button
               type="button"
               className="absolute bottom-3 right-3 p-3 rounded-full bg-white text-xl cursor-pointer outline-none hover:shadow-md transition-all duration-500 ease-in-out"
-              onClick={() => setImageAsset(null)}
+              onClick={() =>{
+                setImageAsset(null)
+                imageRef.current.value = null;
+              }}
             >
               <TrashIcon className="w-4 h-4" />
             </button>

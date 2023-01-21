@@ -9,15 +9,20 @@ import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
 import EmojiPicker from "emoji-picker-react";
 import { client } from "../client";
 import { useStateContext } from "../context/StateContext";
+import { useRouter } from "next/router";
+import {v4 as uuidv4} from 'uuid';
 
-const ChatInput = () => {
+const CommentInput = () => {
   const [emojiBar, setEmojiBar] = useState(false);
-  const { user, setChatLoading, messages, setMessages } = useStateContext();
+  const { user, setChatLoading, comments, setComments } = useStateContext();
   const [link, setLink] = useState("");
   const [isLink, setIsLink] = useState(false);
   const [image, setImage] = useState("");
   const [input, setInput] = useState("");
   const [wrongImageType, setWrongImageType] = useState(false);
+  const {query } = useRouter();
+  const {post} = query;
+  
   const imageRef = useRef();
 
   const handleSend = () => {
@@ -27,7 +32,7 @@ const ChatInput = () => {
       setInput("");
 
       const imageDoc = {
-        _type: "chat",
+        _type: "comment",
         username: user?.username,
         userImage: user?.photoURL,
         image: {
@@ -39,23 +44,32 @@ const ChatInput = () => {
         },
         link: link,
         userId: user?._id,
+        _key: uuidv4(),
         message: textToSend,
+        timestamp: new Date()
       };
       const doc = {
-        _type: "chat",
+        _type: "comment",
         userImage: user?.photoURL,
         username: user?.username,
         link: link,
         userId: user?._id,
         message: textToSend,
+        _key: uuidv4(),
+        timestamp: new Date()
       };
-      client.create(image ? imageDoc : doc).then((data) => {
-        setMessages([...messages, data]);
+      client
+        .patch(post)
+        .setIfMissing({ comments: [] })
+        .insert('after', 'comments[-1]', image ?[{...imageDoc}] : [{...doc}])
+        .commit()
+        .then((data) => {
+        setComments(data?.comments);
         setChatLoading(false);
         setImage(null);
         setLink('');
         setIsLink(false)
-      });
+        });
     }
   };
 
@@ -127,7 +141,7 @@ const ChatInput = () => {
           setEmojiBar(false);
           setIsLink(false);
         }}
-        placeholder={`Message, ${user?.username}`}
+        placeholder={`Comment, ${user?.username}`}
         value={input}
         onChange={(e) => setInput(e.target.value)}
       />
@@ -172,4 +186,4 @@ const ChatInput = () => {
   );
 };
 
-export default ChatInput;
+export default CommentInput;

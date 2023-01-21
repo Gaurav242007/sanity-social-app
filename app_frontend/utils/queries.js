@@ -11,6 +11,12 @@ export const fetchSearchPosts = (searchTerm) => {
    const query =  `*[_type == "post" && title match '${searchTerm}*' || username match '${searchTerm}*'] | order(_createdAt desc)`;
    return query;
 }
+export const fetchComments = (postId) => {
+  const query =  `*[_type == "post" && _id == '${postId}' ] | order(_createdAt asc) {
+    comments[]
+  }`;
+  return query;
+}
 
 export const fetchChats = `*[_type == "chat"] | order(_createdAt asc)`;
 

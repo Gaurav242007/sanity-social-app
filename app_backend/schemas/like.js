@@ -4,14 +4,9 @@ export default {
     type: 'document',
     fields: [
         {
-            name: 'postedBy',
-            title: 'Posted By',
-            type:'postedBy',
-        },
-        {
-            name: 'like',
-            title: 'Like', 
-            type: 'boolean'
-        },
+            name: 'userId',
+            title: 'userId',
+            type: 'string',
+        }
     ]
 }
