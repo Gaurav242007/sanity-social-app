@@ -4,7 +4,7 @@ import { useStateContext } from "../context/StateContext";
 import Banner from "../components/Profile/Banner";
 
 const profile = () => {
-  const { user, setUser } = useStateContext(); 
+  const { user } = useStateContext(); 
   return (
     <div>
       <Head>

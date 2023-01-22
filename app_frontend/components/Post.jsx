@@ -47,14 +47,7 @@ const Post = ({
     setHasLiked(!hasLiked)
     if(hasLiked){
       // remove the like document 
-      client
-        .patch(_id)
-        .remove('after', 'likes[-1]', [{
-
-        }])
-        .commit()
-        .then((data) => {
-        });
+      
     }
     else {
       // add new like document conatining user id
