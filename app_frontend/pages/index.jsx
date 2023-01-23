@@ -28,7 +28,7 @@ const App = () => {
   return (
     <div>
       <Head>
-        <title>Sanity Social App</title>
+        <title>Social App</title>
         <link
           rel="icon"
           href="https://cdn-icons-png.flaticon.com/128/4494/4494464.png"
